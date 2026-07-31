@@ -94,3 +94,9 @@ export function listTopics(): { id: number; name: string }[] {
     name: string;
   }[];
 }
+
+export function restoreTask(id: number): void {
+  getDb()
+    .prepare("UPDATE tasks SET archived_at = NULL, updated_at = datetime('now') WHERE id = ?")
+    .run(id);
+}
