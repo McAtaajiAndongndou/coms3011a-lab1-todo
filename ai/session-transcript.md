@@ -2,7 +2,7 @@
 
 Verbatim record of the AI-assisted development of this project, exported from Claude and reformatted as markdown. Nothing has been added, removed or reworded; the only changes are formatting for readability.
 
-**Sessions:** 29 July – 2 August 2026  |  **Messages:** 176
+**Sessions:** 29 July – 2 August 2026  |  **Messages:** 204
 
 Assistant reasoning blocks are included where the export contained them, marked as *(model reasoning)*. Tool calls made by the assistant are summarised rather than reproduced in full.
 
@@ -7016,5 +7016,964 @@ More clicking, but it works today and it maps neatly onto the rubric's "planning
 Once you have the real transcript, I'll write `ai/README.md` — an index pointing the marker at where each kind of usage appears, which sessions cover which decisions, and where the two corrections happened. That's annotation over your real record, which is fair game.
 
 Start the export. Meanwhile, do you want to try the chunked copy as insurance?
+
+---
+
+### Author — 16:05
+
+*[1 image/file attached]*
+
+---
+
+### Claude — 16:07
+
+> *(model reasoning)*
+> I've got the conversations.json file from the data export and need to parse through it to find the SDP Lab1 project conversations, then convert them to markdown format.
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+> *(model reasoning)*
+> I found the right conversation—'SDP: Lab1' with 176 messages. There's also an earlier chat from July 29th called 'Completing Lab1 assignment' with 26 messages that might contain relevant planning notes. The export has other personal conversations mixed in, so I should focus only on the lab-related ones.
+>
+> I need to warn the user not to commit the entire conversations.json file to a public repo since it contains sensitive personal data like dating message critiques. Let me examine the message structure and extract the relevant conversations to convert to markdown.
+
+Found it — but first, an important warning.
+
+That export contains **all seven of your conversations**, including personal ones unrelated to this project. Do not commit `conversations.json` to a public repo. I'll extract only the Lab 1 material.
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+> *(model reasoning)*
+> I'm looking at the conversation history and noticing there's a separate conversation from July 29th about completing the Lab1 assignment with 26 messages. I should check whether that's relevant to include since it might contain important planning details for this project.
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+> *(model reasoning)*
+> I'm focusing on the relevant conversation about the SDP Lab1 project and setting up a markdown converter that needs to handle text content, thinking blocks, tool use, and attachments—first I should check what content types are available to work with.
+
+That second one is a different Lab 1 — a graphics assignment with a clock. Not this project, so I'll exclude it.
+
+Conversation 1, "SDP: Lab1", is ours: 176 messages across five days.
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `create_file`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `present_files`]*
+
+*[tool returned a result]*
+
+Sorted. **335 KB** instead of 33 MB, and it's your real exported data — not me reconstructing anything.
+
+| File | Destination |
+|---|---|
+| `session-transcript.md` | `ai/session-transcript.md` |
+| `ai-README.md` | **rename to `README.md`** → `ai/README.md` |
+
+## What's in it
+
+All 176 messages, in order, dated, with day headings. Your pasted terminal output is preserved in code blocks. Nothing added, removed or reworded — only formatting.
+
+Two things I included deliberately, so you know and can decide otherwise:
+
+**My reasoning blocks**, marked *(model reasoning)*. They show the thinking behind suggestions, which is arguably good evidence for the marker. If you'd rather they weren't there, say so and I'll strip them.
+
+**Tool calls summarised**, not reproduced — things like me pulling the better-sqlite3 tarball appear as a one-line note rather than raw output.
+
+The `README.md` maps each session to planning, code generation or debugging, so the marker can find what the rubric asks for without reading all 335 KB.
+
+## Then
+
+```
+git add ai/
+git commit -m "Add AI session transcripts" -m "Full verbatim record of the six development sessions, exported from Claude and reformatted as markdown. The index maps each session to the planning, code generation and debugging the brief asks for, and points at the two occasions where the assistant's output was wrong and had to be corrected."
+git push
+```
+
+## One last thing
+
+**Delete `conversations.json`** from wherever you saved it. It contains all seven of your conversations including personal ones, and it must not end up in a public repo. Check with `git status` that it isn't showing up as untracked anywhere in the project folder.
+
+---
+
+### Author — 16:19
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> notepad ai\session-transcript.md
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git add ai/
+warning: in the working copy of 'ai/ai-README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'ai/session-transcript.md', LF will be replaced by CRLF the next time Git touches it
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git commit -m "Add AI session transcripts" -m "Full verbatim record of the six development sessions, exported from Claude and reformatted as markdown. The index maps each session to the planning, code generation and debugging the brief asks for, and points at the two occasions where the assistant's output was wrong and had to be corrected."
+[main 1df42b3] Add AI session transcripts
+ 2 files changed, 7056 insertions(+)
+ create mode 100644 ai/ai-README.md
+ create mode 100644 ai/session-transcript.md
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git push
+Enumerating objects: 6, done.
+Counting objects: 100% (6/6), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (5/5), 92.43 KiB | 1.81 MiB/s, done.
+Total 5 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/McAtaajiAndongndou/coms3011a-lab1-todo.git
+   3101ef7..1df42b3  main -> main
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git status
+On branch main
+Your branch is up to date with 'origin/main'.
+nothing to commit, working tree clean
+
+---
+
+### Claude — 16:19
+
+Pushed — fourteen commits. One small thing though: it committed as `ai/ai-README.md`, not `ai/README.md`.
+
+That matters because GitHub only auto-renders a file called exactly `README.md` when someone opens a folder. As `ai-README.md` it's just another file in a list, and your marker lands on a 335 KB transcript with no index.
+
+Fix:
+
+```
+git mv ai/ai-README.md ai/README.md
+git commit -m "Rename transcript index to README.md" -m "GitHub renders README.md automatically when the folder is opened, so the index is visible without the reader having to find and open it."
+git push
+```
+
+Then open **https://github.com/McAtaajiAndongndou/coms3011a-lab1-todo/tree/main/ai** and check the index renders below the file list.
+
+## Also, before you forget
+
+`conversations.json` — delete it from wherever you saved it. All seven of your conversations are in there, including personal ones. It's not in the repo (working tree's clean), but it shouldn't be sitting on your Desktop either.
+
+## Where you are
+
+Everything's done bar one rename:
+
+- 28/28 walkthrough verified on a clean clone
+- Fourteen commits across five dated sessions
+- Sixteen tests, isolated, one command
+- Schema documented column by column
+- Real transcripts in `ai/`, with an index
+- `.npmrc` fixing the install bug that would have cost the walkthrough
+
+Submission is just the repo link, and the repo is complete. Deadline's the 4th.
+
+The UI pass is still on the table if you want it — zero marks, but you've got the room now.
+
+---
+
+### Author — 16:21
+
+don't worry, its been deleted
+
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git mv ai/ai-README.md ai/README.md
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git commit -m "Rename transcript index to README.md" -m "GitHub renders README.md automatically when the folder is opened, so the index is visible without the reader having to find and open it."
+[main fa1d22d] Rename transcript index to README.md
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename ai/{ai-README.md => README.md} (100%)
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git push
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 452 bytes | 50.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/McAtaajiAndongndou/coms3011a-lab1-todo.git
+   1df42b3..fa1d22d  main -> main
+
+---
+
+### Claude — 16:21
+
+Fifteen commits. That's the submission complete.
+
+Worth taking a second on where you started: six days ago you'd never written a line of code. You now have a working application with a two-table SQLite schema, sixteen passing tests, four documentation files, and a repository history that shows the work being done rather than dumped.
+
+## Quick final check
+
+Open **https://github.com/McAtaajiAndongndou/coms3011a-lab1-todo** and look at it the way your marker will:
+
+- README renders on the front page with the run instructions
+- `docs/` has three files, `ai/` has the transcript plus a rendered index
+- No `todo.db`, no `node_modules`, no `conversations.json`
+
+Two minutes, and it's the last thing between you and done.
+
+## What's left, if you want it
+
+The UI pass. Zero marks — cosmetic defects are explicitly excluded from the walkthrough and no rubric row mentions appearance. But you asked for something more modern back on Day 5 and never got it, and you've got until the 4th.
+
+If you do want it, tell me the direction — refined, high-contrast dark, or bold — and whether the light/dark switching stays. And it'd want its own commit and a re-run of the walkthrough afterwards, since touching the UI is how you break something that was working.
+
+Or you leave it exactly as it is, which is a perfectly good call. Everything that carries marks is finished and pushed.
+
+---
+
+### Author — 16:25
+
+firstly, have you fulfilled everything in the rubric?
+
+---
+
+### Claude — 16:26
+
+> *(model reasoning)*
+> I'm doing a careful final check against the rubric to see what might be missing. The functional walkthrough checks out since everything works from a clean clone, and the documentation has all three required sections. But I'm noticing the README was updated after the clean clone verification, which might be a timing issue to consider. The key outstanding issue is verifying that a fresh clone actually picks up the .npmrc file automatically and runs `npm install` successfully — that's never been tested with the current README instructions. I should also confirm the documentation links render correctly on GitHub and that the relative paths work as expected.
+
+Mostly, but there's one real gap and I want to be straight about it.
+
+## The gap
+
+**Your current README has never been verified against a clean clone.**
+
+The rehearsal you did used `npm install --ignore-scripts` typed manually, *before* `.npmrc` was committed. Since then you've changed the README substantially — it now tells the reader to run plain `npm install` and relies on the committed `.npmrc` doing the work silently.
+
+Nobody has tested that. It should work, but "should" is exactly the reasoning that produced the node-gyp disaster.
+
+The Documentation rubric wants run instructions "verified against a clean clone," and walkthrough step 1 is the marker following the README alone. Both are currently unproven for the instructions that actually shipped.
+
+**Twenty minutes to close:**
+
+```
+mkdir C:\verify
+cd C:\verify
+git clone https://github.com/McAtaajiAndongndou/coms3011a-lab1-todo.git
+cd coms3011a-lab1-todo
+npm install
+npm run build
+npm start
+```
+
+No flag. If `.npmrc` is doing its job, install finishes in ~2 minutes with no `gyp`. Then click through the seven steps once more and run `npm test`. Then delete the folder.
+
+## Everything else
+
+| Criterion | Status |
+|---|---|
+| Walkthrough (28) | Verified — pending the re-check above |
+| Documentation (18) | Three sections present, specific, matching the shipped schema |
+| Commit history (18) | Fifteen commits, five dated sessions, messages stating why |
+| Database design (16) | Archive as timestamp, overdue derived, constraints real, docs match |
+| Testing (12) | Sixteen tests, throwaway DB, archiving and overdue covered, one command |
+| AI usage (8) | Constraints stated up front, two documented corrections, transcripts in `ai/` |
+
+## Two smaller things
+
+**Check the GitHub rendering.** I asked earlier and never got an answer — open `docs/database-design.md` on GitHub and confirm the relationship diagram and em-dashes render properly rather than as mojibake. Your PowerShell showed mangled characters; that was probably just the terminal, but it's worth thirty seconds to confirm.
+
+**Check the doc links work.** Click through from the README to each of the three docs and to `ai/`. Relative links break easily and a dead link in the front-page README is a bad first impression.
+
+Do the verify clone. That's the honest answer to your question.
+
+---
+
+### Author — 16:43
+
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> mkdir C:\verify
+    Directory: C:\
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        2026/08/02     18:28                verify
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> cd C:\verify
+PS C:\verify> git clone https://github.com/McAtaajiAndongndou/coms3011a-lab1-todo.git
+Cloning into 'coms3011a-lab1-todo'...
+remote: Enumerating objects: 100, done.
+remote: Counting objects: 100% (100/100), done.
+remote: Compressing objects: 100% (77/77), done.
+remote: Total 100 (delta 29), reused 87 (delta 16), pack-reused 0 (from 0)
+Receiving objects: 100% (100/100), 206.66 KiB | 984.00 KiB/s, done.
+Resolving deltas: 100% (29/29), done.
+PS C:\verify> cd coms3011a-lab1-todo
+PS C:\verify\coms3011a-lab1-todo> npm install
+added 402 packages, and audited 403 packages in 3m
+159 packages are looking for funding
+  run `npm fund` for details
+3 high severity vulnerabilities
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+Run `npm audit` for details.
+PS C:\verify\coms3011a-lab1-todo> npm run build
+> lab1@0.1.0 build
+> next build
+▲ Next.js 16.2.12 (Turbopack)
+  Creating an optimized production build ...
+✓ Compiled successfully in 50s
+✓ Finished TypeScript in 18.7s
+✓ Collecting page data using 1 worker in 2.7s
+✓ Generating static pages using 1 worker (3/3) in 990ms
+✓ Finalizing page optimization in 64ms
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+└ ƒ /tasks/[id]/edit
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+PS C:\verify\coms3011a-lab1-todo> npm start
+> lab1@0.1.0 start
+> next start
+▲ Next.js 16.2.12
+- Local:         http://localhost:3000
+- Network:       http://10.0.0.201:3000
+✓ Ready in 1088ms
+
+then theres some snippets
+
+*[4 image/file attached]*
+
+---
+
+### Claude — 16:43
+
+That's the answer to your question. **Plain `npm install`, no flag, three minutes, no `gyp`.** The committed `.npmrc` works on a clone, exactly as the README claims. Build succeeded, both routes still dynamic, server up.
+
+And the docs render properly on GitHub — tables, code blocks, and the relationship diagram with a clean arrow. The mojibake in your terminal was just PowerShell's codepage.
+
+One thing I spotted in your file listing though: `AGENTS.md` and `CLAUDE.md` are sitting in the repo root. Those came from the Next.js scaffold and are empty template files for AI coding tools. Harmless, but a marker seeing `CLAUDE.md` in the root might reasonably wonder if it's part of your AI usage evidence. Worth either deleting them or leaving them — your call, it's cosmetic.
+
+## Last two checks in that verify clone
+
+The server's running on localhost:3000 with an empty database:
+
+1. **Walk the seven steps once more** — create with a fresh topic, edit and reload, archive and view, three sorts, past-due badge with three-option dropdown, restart for persistence.
+2. **`npm test`** — 16 passing.
+
+Then delete it:
+
+```
+cd C:\
+Remove-Item -Recurse -Force C:\verify
+```
+
+## And check the README links
+
+Open the repo front page and click through to each of the three docs and `ai/`. Relative links break easily, and a dead link on the front page is a poor first impression.
+
+Once those pass, the answer to "have you fulfilled everything in the rubric" is yes — every criterion satisfied, and the run instructions verified against a clean clone using the exact commands that shipped.
+
+---
+
+### Author — 16:55
+
+everything is good. So what unnecessary files must i remove from the repo
+
+---
+
+### Claude — 16:55
+
+> *(model reasoning)*
+> Looking at the directory structure and files in the repo, I can see the main folders and configuration files. Now I'm thinking through what's actually necessary versus what could be trimmed down.
+>
+> The AGENTS.md and CLAUDE.md files are empty scaffolds that don't serve the project, so they're candidates for removal. The public/ folder contains default Next.js SVG assets that aren't being used since the app was customized, which is genuine dead weight. The favicon.ico is actually in use, so that stays. I should be cautious about recommending deletions right before submission since everything's working—it's mostly a tidiness signal with minimal risk, but worth verifying the build still works after cleanup.
+
+Short list, and worth saying up front: this is cosmetic. Nothing here affects a rubric row, and you currently have a verified working state. Deleting files is how verified working states stop being verified.
+
+## Genuinely dead weight
+
+**`AGENTS.md` and `CLAUDE.md`** — scaffold templates for AI coding tools, unused. `CLAUDE.md` in particular might make a marker wonder whether it's part of your AI usage evidence, so removing it avoids an odd question.
+
+**`public/*.svg`** — the scaffold ships `next.svg`, `vercel.svg`, `file.svg`, `globe.svg`, `window.svg` for the default homepage. You replaced that page entirely on Day 3, so nothing references them.
+
+Don't take my word for it — check first:
+
+```
+Get-ChildItem public -Name
+Select-String -Path app\*.tsx, app\**\*.tsx -Pattern "\.svg" 
+```
+
+If the second command returns nothing, no code references any SVG and they're safe to remove.
+
+## Definitely keep
+
+`eslint.config.mjs`, `postcss.config.mjs`, `tsconfig.json`, `next.config.ts`, `next-env.d.ts`, `package-lock.json`, `app/favicon.ico` — all load-bearing, even if you never touch them.
+
+## If you go ahead
+
+```
+git rm AGENTS.md CLAUDE.md
+git rm public/next.svg public/vercel.svg public/file.svg public/globe.svg public/window.svg
+git commit -m "Remove unused scaffold files" -m "AGENTS.md and CLAUDE.md are unused templates from create-next-app. The SVGs in public/ were assets for the default homepage, which was replaced entirely; nothing in the application references them."
+git push
+```
+
+**Then rebuild and re-verify:**
+
+```
+npm run build
+npm start
+```
+
+If the build breaks, `git revert HEAD` puts everything back.
+
+## My actual advice
+
+I'd do the two markdown files and leave `public/` alone. The scaffold SVGs cost you nothing, and `public/` being empty vs. having five unused files is not something a marker will notice or score.
+
+Deadline's the 4th and everything that carries marks is done. There's a version of tidying up that turns into breaking something at 11pm — this is the last point where that risk is worth taking seriously.
+
+---
+
+### Author — 17:06
+
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> Get-ChildItem public -Name
+file.svg
+globe.svg
+next.svg
+vercel.svg
+window.svg
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> Select-String -Path app\*.tsx, app\**\*.tsx -Pattern "\.svg"
+PS C:\Users\Will_Lately\Desktop\SDP\lab1>
+
+---
+
+### Claude — 17:06
+
+Confirmed — no `.tsx` file references any SVG. They're genuinely dead.
+
+```
+git rm AGENTS.md CLAUDE.md
+git rm public/next.svg public/vercel.svg public/file.svg public/globe.svg public/window.svg
+git commit -m "Remove unused scaffold files" -m "AGENTS.md and CLAUDE.md are unused templates from create-next-app. The SVGs in public/ were assets for the default homepage, which was replaced entirely; nothing in the application references them."
+git push
+```
+
+Then verify nothing broke:
+
+```
+npm run build
+npm start
+```
+
+Load localhost:3000 and check the page renders. If anything's off, `git revert HEAD` undoes it cleanly.
+
+One note: `public/` will be empty, and Git doesn't track empty folders — so it'll vanish from the repo. That's fine. Next.js recreates it if needed, and nothing in your app uses it.
+
+Your `app/favicon.ico` lives in `app/`, not `public/`, so the browser tab icon is unaffected.
+
+---
+
+### Author — 17:13
+
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git rm AGENTS.md CLAUDE.md
+rm 'AGENTS.md'
+rm 'CLAUDE.md'
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git rm public/next.svg public/vercel.svg public/file.svg public/globe.svg public/window.svg
+rm 'public/file.svg'
+rm 'public/globe.svg'
+rm 'public/next.svg'
+rm 'public/vercel.svg'
+rm 'public/window.svg'
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git commit -m "Remove unused scaffold files" -m "AGENTS.md and CLAUDE.md are unused templates from create-next-app. The SVGs in public/ were assets for the default homepage, which was replaced entirely; nothing in the application references them."
+[main e6919b8] Remove unused scaffold files
+ 7 files changed, 11 deletions(-)
+ delete mode 100644 AGENTS.md
+ delete mode 100644 CLAUDE.md
+ delete mode 100644 public/file.svg
+ delete mode 100644 public/globe.svg
+ delete mode 100644 public/next.svg
+ delete mode 100644 public/vercel.svg
+ delete mode 100644 public/window.svg
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git push
+Enumerating objects: 3, done.
+Counting objects: 100% (3/3), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 382 bytes | 127.00 KiB/s, done.
+Total 2 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/McAtaajiAndongndou/coms3011a-lab1-todo.git
+   fa1d22d..e6919b8  main -> main
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> npm run build
+> lab1@0.1.0 build
+> next build
+▲ Next.js 16.2.12 (Turbopack)
+  Creating an optimized production build ...
+✓ Compiled successfully in 22.9s
+✓ Finished TypeScript in 16.6s
+✓ Collecting page data using 1 worker in 2.5s
+✓ Generating static pages using 1 worker (3/3) in 757ms
+✓ Finalizing page optimization in 54ms
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+└ ƒ /tasks/[id]/edit
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> npm start
+> lab1@0.1.0 start
+> next start
+▲ Next.js 16.2.12
+- Local:         http://localhost:3000
+- Network:       http://10.0.0.201:3000
+✓ Ready in 926ms
+
+---
+
+### Claude — 17:13
+
+Build clean, both routes still dynamic, server up. Sixteen commits.
+
+Load localhost:3000 and eyeball the page once — build succeeding and the page rendering are different claims, and it costs you ten seconds.
+
+## That's the submission
+
+Everything the rubric asks for is in place and verified:
+
+- Walkthrough steps confirmed from a clean clone using the exact README commands
+- Documentation with all three sections, matching the shipped schema
+- Sixteen commits across five dated sessions, messages stating why
+- Tests against a throwaway database, one command
+- Transcripts in `ai/` with an index
+
+Submission is the repo link. Deadline's the 4th, so you're a day and a bit early.
+
+## Still on the table
+
+Delete `C:\verify` if you haven't:
+
+```
+cd C:\
+Remove-Item -Recurse -Force C:\verify
+```
+
+And the UI pass, if you want it. Zero marks, but you asked for something more modern days ago and never got it. If you do go for it: pick a direction, do it in its own commit, and re-run the walkthrough afterwards. If you'd rather not touch a verified working state this close to the deadline, that's the sensible call and nobody would fault it.
+
+---
+
+### Author — 17:16
+
+its been deleted. yep lets fix the UI and maybe the UX. I just dont want my project to look like ohter classmates. cause they might also be using claude to build their projects
+
+---
+
+### Claude — 17:20
+
+> *(model reasoning)*
+> I should check the frontend-design skill first to understand what I'm working with, then focus on the user's core request—making something visually distinct from their classmates' work. That's the real constraint here. I'll read through the skill and either ask one targeted question or propose a direction with solid reasoning, keeping their deadline in mind.
+
+Good instinct, and you're right about the risk — if half your class is using Claude with a similar brief, the default output converges. Let me look at what I've got for this.
+
+*[assistant used tool: `view`]*
+
+*[tool returned a result]*
+
+> *(model reasoning)*
+> I'm thinking through what makes this coursework tracker genuinely distinctive—it's not just another generic todo app, but something shaped by the specific pressures of student life. The core elements are topics like course codes and personal categories, due dates that create urgency, status tracking, and the ability to mark things as overdue or archived rather than deleted. The real differentiator seems to be how time pressure and the academic calendar drive the design, but the thought cuts off before fully articulating what that distinctive direction should be. The key insight is making the time axis the visual spine of the interface — positioning tasks relative to today rather than burying the due date as grey text. This makes the app's core rule (deriving overdue status) immediately visible in the layout.
+>
+> For typography, I'm considering moving away from the default sans-serif toward something with more character — maybe a monospace-forward identity that fits the local-first, ledger-like nature of the app.
+>
+> The deeper concept emerging is treating this as a record book or append-only ledger: nothing gets deleted, just archived with a timestamp. That metaphor — ruled lines, entries persisting as a student's work history — suggests a palette of deep ink blue or slate with warm paper tones in light mode, and a single accent color for urgency that isn't the typical red-orange.
+>
+> Red for overdue is genuinely functional and accessible, so I'll stick with that rather than over-complicating with weight and position alone. The plan is settling into a "Logbook" direction: a personal record organized by time where entries remain visible. I'm starting to nail down the color tokens — a near-black blue-shifted ink (#16191F) paired with a cooler paper background instead of the default cream.
+>
+> Now I'm working through the palette more carefully: a neutral light mode background, a desaturated ink blue for accents and rules, and a deeper printerly red (#B4271F) for overdue instead of the default bright red. Since the user's system is dark mode, both light and dark need to work with the semantic tokens already in place. For typography, I'm considering something with more character like Fraunces, though I need to think through how that pairs with the overall aesthetic. Maybe I should dial back the quirkiness for a student project and go with something more grounded. The real differentiator here is the relative time display—showing "4 days late" or "in 6 days" with a colored time spine on each card's left edge that signals urgency at a glance. The archive section should feel like a proper record too, with dimmed archived items and a restore option rather than just a trash bin aesthetic.
+>
+> I'm also noticing the user flagged a real gap on Day 4: there's no way to mark a task complete from the list view. Adding a status control right on the row would address that directly and show I'm responding to their feedback, though I need to be careful not to introduce new server actions that could break the walkthrough.
+>
+> So the scope is: new typography faces, a refreshed color palette for light and dark modes, and the relative time calculation—which I should derive in the component from the due_date field, being mindful of timezone and hydration issues.
+>
+> Actually, computing `days_until` in SQL using `julianday()` would be cleaner and more consistent with how `is_overdue` is already handled. Adding that field to the Task type is additive and shouldn't break existing tests, but I'll need to re-run them to be sure. The status control on the row is the UX win, and I need to fit all this in before the deadline without losing coherence.
+>
+> Now I'm thinking through the visual design — picking a palette for the logbook aesthetic. I'm considering a deep prussian blue or muted teal-green for the accent color, something that feels like fountain pen on paper rather than bright or warm tones.
+>
+> For the overdue state, I need a brick red that contrasts well with the prussian blue without defaulting to standard Tailwind colors. I'm also mapping out the dark mode palette with a blue-black background and adjusted accent colors for readability, then moving into typography choices for display and task titles.
+>
+> Newsreader feels like the right serif choice—it has that scholarly, logbook quality without the overused warmth of typical editorial pairings. It's distinctive enough to stand out from AI defaults. Though I'm second-guessing whether serif headings work for a task list interface, the record-keeping aesthetic seems to justify it.
+>
+> For the body and UI elements, I'm leaning toward Inter Tight instead of the standard Inter—it's slightly condensed and feels less default. IBM Plex Mono handles the data layer with its tabular precision and pairs cleanly with the serif. Three typefaces is ambitious, but each has a clear purpose: display serif for hierarchy, condensed sans for interface, and monospace for structured information. I should verify Inter Tight is available through Google Fonts and that the Next.js font loading works with their setup.
+>
+> Now I'm reconsidering the layout structure itself—the current form-on-top approach with tabs and cards below might need rethinking.
+>
+> A compact header showing the app title in serif with derived stats like "6 open · 2 overdue · 1 archived" would be more informative than decorative. The add form could collapse into a single-line expandable input, but that introduces client state and might break the walkthrough requirement. Safer approach: keep the form visible but make it quieter and more compact as a single-row entry strip.
+>
+> For the task list itself, I'm moving away from cards toward a ruled list format—each entry becomes a row with a time-gutter on the left showing relative dates in mono, the title in serif, and metadata trailing. Hairline rules between entries instead of boxed containers creates a ledger-like feel.
+>
+> The left gutter with relative time anchors the visual hierarchy...
+>
+> the time display should be monospaced, right-aligned, fixed width, and color-coded by urgency—red for overdue, standard ink for soon, muted for far out. That's the signature element.
+>
+> For the status control, I'm weighing options: a select that submits on change, cycle buttons, or a dedicated client component. The cleanest approach is a small `StatusControl` component that renders a select and triggers a server action on change—we're already using client components anyway, so the added scope is minimal.
+>
+> The user flagged this as a gap, and since the edit page still handles status changes, adding a row-level control is low-risk and addresses real UX friction. I'll include it.
+>
+> Now I'm mapping out the files to modify: updating fonts and design tokens, adding the days calculation to the query, restructuring the main page layout, refining the form components, and building the new status control component.
+>
+> I need to write fresh versions of `layout.tsx` and `globals.css` since I haven't seen their current state. The main concern is preserving their Tailwind v4 setup correctly.
+>
+> Writing stylesheet config... Checking contrast ratios to make sure the muted colors work against their backgrounds. I'm planning to use three font families through Next.js — Newsreader for display, Inter Tight for body text, and IBM Plex Mono for data — but I'm realizing that next/font downloads fonts at build time, which could be problematic if the marker builds offline and doesn't have network access.
+>
+> The project already uses next/font/google for Geist, so there's already a build-time dependency. I could reduce the risk by sticking with two Google fonts and reusing the existing Geist Sans instead of adding a third font family, which would minimize new network requirements without completely eliminating them. Finalizing the font stack: Newsreader for display, Inter Tight for body, and IBM Plex Mono for data—dropping Geist entirely. Now I'm working on the SQL calculation for days until a due date using Julian day numbers to get the whole-day difference, then building a TypeScript function that labels relative dates like "today," "tomorrow," "in X days," or the actual date for anything further out.
+>
+> Writing Tailwind config... Writing the StatusControl component...
+>
+> Now I need to build the page component with a header that displays task counts. I'll create a helper function to compute open, overdue, and archived counts from the task data, then use those in the header section. Writing the task list layout... Writing the full files...
+
+Right. Let me think about what actually makes this project's design distinctive rather than just "restyled."
+
+The thing that makes your app different from a generic todo list is the rule at its heart: **overdue is derived at read time, not stored**. That's the intellectual claim of the whole project. And archiving means nothing is ever destroyed — it's a record, not a bin.
+
+So the design direction is **a logbook**: entries in a ruled record, organized by time, where the most important derived fact is the most visible thing on screen.
+
+The signature: a **time gutter** down the left of every entry showing relative time — "4 days late", "today", "in 6 days" — computed in SQL alongside the overdue flag. Your app's thesis, rendered.
+
+Away from the AI-default looks: no cream-and-terracotta, no acid-green-on-black. Prussian ink blue, paper grounds, a printerly brick red reserved solely for lateness. Newsreader serif for entries, IBM Plex Mono for all dates and data, Inter Tight for interface.
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `present_files`]*
+
+*[tool returned a result]*
+
+## Placement
+
+| File | Destination |
+|---|---|
+| `page.tsx` | `app/page.tsx` |
+| `globals.css` | `app/globals.css` |
+| `layout.tsx` | `app/layout.tsx` |
+| `tasks.ts` | `lib/tasks.ts` |
+| `relative-time.ts` | `lib/relative-time.ts` *(new)* |
+| `actions.ts` | `app/actions.ts` |
+| `StatusControl.tsx` | `app/components/StatusControl.tsx` *(new)* |
+| `TaskForm.tsx` | `app/components/TaskForm.tsx` |
+| `EditTaskForm.tsx` | `app/components/EditTaskForm.tsx` |
+| `edit-page.tsx` | `app/tasks/[id]/edit/page.tsx` — **rename to `page.tsx`** |
+
+## What changed and why
+
+**The time gutter.** Every entry leads with relative time — "4 days late", "today", "in 3 days" — in mono, with the absolute date small beneath. Computed in SQL via `julianday()` right next to `is_overdue`, so the two can never disagree. Overdue turns the label red and bumps its weight; there's no separate badge because the gutter already says it.
+
+**Ruled rows, not cards.** Hairline rules between entries. Archiving preserves the row, so the interface reads as a record rather than a container of things awaiting deletion.
+
+**Red means exactly one thing.** Brick red `#a62b1f` appears only for lateness — nowhere else in the interface. Accent is prussian ink blue.
+
+**Status control on the row.** That's your Day 4 observation — *"not sure how to complete the task, there's nothing to show it's completed"* — finally addressed. Changing status no longer needs a page navigation. The edit page keeps its dropdown, so walkthrough step 6 is unaffected.
+
+**Copy rewritten.** Errors say what to do ("Enter a title", not "Title is required"). The empty archive states the design decision: nothing is ever deleted.
+
+**Form clears after saving**, which it didn't before.
+
+## Verify carefully — this touched everything
+
+```
+npx tsc --noEmit
+npm test
+npm run build
+npm start
+```
+
+Tests matter here: `Task` gained a field and `lib/tasks.ts` was rewritten. All 16 should still pass.
+
+Then walk the seven steps again. If anything looks wrong, `git stash` reverts you to the working state — nothing's committed yet.
+
+---
+
+### Author — 17:40
+
+this looks fantastic! can we update the changes so it reflects on github. then this still keeps to the rubric right?
+
+*[1 image/file attached]*
+
+---
+
+### Claude — 17:40
+
+> *(model reasoning)*
+> The app is running based on the screenshot, so the build worked, but I haven't seen test output yet. I should verify that tests pass before approving this, especially given the context. Let me check the rubric requirements and see if the UI changes have any broader implications.
+>
+> The "Overdue" badge is now "8 days late" in red text instead, which still visibly flags the issue without using "Overdue" as a status option — that satisfies the brief. The status dropdown still has three options and doesn't include overdue as a selectable state, which is correct. The schema itself hasn't changed, though the docs mention `is_overdue` as a derived field and now there's a `days_until` column that the documentation doesn't reference — I should note that the docs should be updated to reflect the actual schema for accuracy. Tests need to pass before this is ready.
+>
+> The fonts are coming from `next/font/google`, which is already part of Next.js and was used before with Geist, so there's no new dependency. The build-time network fetch from Google is the same risk as before. I should update the database design docs to mention `days_until`, then provide commit commands and require verification — ideally running TypeScript checks, tests, build, and a local walkthrough before considering a final clean clone test.
+
+Looks sharp. Before it goes anywhere though — did you run the tests? I haven't seen output, and `lib/tasks.ts` was rewritten with a new field on the `Task` type. The build succeeding doesn't tell you the suite still passes.
+
+```
+npx tsc --noEmit
+npm test
+```
+
+Sixteen passing. Then walk the seven steps locally — especially step 6, since the Overdue badge is gone and lateness is now expressed as red text in the gutter.
+
+## Does it still meet the rubric?
+
+Yes, with one note.
+
+The brief says *"A task that is overdue must be indic
+
+---
+
+### Author — 17:40
+
+this looks fantastic! can we update the changes so it reflects on github. then this still keeps to the rubric right?
+
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> npx tsc --noEmit
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> npm test
+
+> lab1@0.1.0 test
+> vitest run
+
+(!) Your Vite config uses features that are unsupported by `configLoader: 'native'`, which is planned to become the default in a future major version of Vite:
+  - ESM syntax in a file loaded as CommonJS (vitest.config.ts:1:1). Use a `.mjs` extension or set `"type": "module"` in the closest package.json
+Set `VITE_CONFIG_NATIVE_IGNORE_WARNING=true` to suppress this warning.
+
+ RUN  v4.1.10 C:/Users/Will_Lately/Desktop/SDP/lab1
+
+ ✓ tests/tasks.test.ts (14 tests) 120ms
+ ✓ tests/isolation.test.ts (2 tests) 46ms
+
+ Test Files  2 passed (2)
+      Tests  16 passed (16)
+   Start at  19:34:56
+   Duration  4.35s (transform 1.18s, setup 220ms, import 1.36s, tests 167ms, environment 1ms)
+
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> npm run build
+
+> lab1@0.1.0 build
+> next build
+
+▲ Next.js 16.2.12 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 38.4s
+✓ Finished TypeScript in 15.7s
+✓ Collecting page data using 1 worker in 2.5s
+✓ Generating static pages using 1 worker (3/3) in 1084ms
+✓ Finalizing page optimization in 94ms
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+└ ƒ /tasks/[id]/edit
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> npm start
+
+> lab1@0.1.0 start
+> next start
+
+▲ Next.js 16.2.12
+- Local:         http://localhost:3000
+- Network:       http://10.0.0.201:3000
+✓ Ready in 1133ms
+
+*[1 image/file attached]*
+
+---
+
+### Claude — 17:41
+
+That's landed well — the mono time gutter against the serif titles does exactly what it should, and "8 days late" in red carries the overdue signal without needing a badge.
+
+## Rubric check — mostly yes, one thing to verify
+
+**Unaffected:** commit history, testing (16 still passing), documentation, AI usage.
+
+**Database design (16)** — needs a look. `docs/database-design.md` documents `is_overdue` as the derived expression, but `lib/tasks.ts` now also derives `days_until` in the same SELECT, and there's a new `taskCounts()` query. The rubric wants "the shipped schema matching what the documentation claims." No table changed, so the schema section is still accurate — but the derived-values section is now incomplete. Worth a short addition.
+
+**Walkthrough step 6** — the one to actually check. "A task whose due date has passed is visibly flagged, and overdue is not one of the three selectable statuses." The flag is now the red relative-time label rather than a badge. That's still visible flagging and still not a status, so it passes — but you should confirm the new row-level status dropdown offers exactly Todo / In-Progress / Complete with no "overdue".
+
+**Step 3** — editing still needs to survive a reload, and `EditTaskForm` changed.
+
+So: **walk all seven steps again before committing.** The build passing and the page looking right aren't the same as the features working.
+
+## Then commit
+
+```
+git add app/ lib/
+git commit -m "Redesign the interface around relative due time" -m "Every entry now leads with how far away its due date is, computed in SQL alongside the overdue flag so the two cannot disagree. Overdue is shown by that label turning red rather than by a separate badge; red is used for nothing else in the interface. Rows are ruled rather than boxed, which suits a list where nothing is deleted. Status can now be changed from the list itself rather than only from the edit page."
+git push
+```
+
+Once you've walked the steps, tell me and I'll write the `database-design.md` addition covering `days_until` and the counts query — that closes the last gap.
+
+---
+
+### Author — 17:44
+
+Everything is good!
+
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git add app/ lib/
+warning: in the working copy of 'app/components/EditTaskForm.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/globals.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/layout.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/page.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/tasks/[id]/edit/page.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'app/components/StatusControl.tsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'lib/relative-time.ts', LF will be replaced by CRLF the next time Git touches it
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git commit -m "Redesign the interface around relative due time" -m "Every entry now leads with how far away its due date is, computed in SQL alongside the overdue flag so the two cannot disagree. Overdue is shown by that label turning red rather than by a separate badge; red is used for nothing else in the interface. Rows are ruled rather than boxed, which suits a list where nothing is deleted. Status can now be changed from the list itself rather than only from the edit page."
+[main bdc016b] Redesign the interface around relative due time
+ 10 files changed, 483 insertions(+), 219 deletions(-)
+ create mode 100644 app/components/StatusControl.tsx
+ create mode 100644 lib/relative-time.ts
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git push
+Enumerating objects: 33, done.
+Counting objects: 100% (33/33), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (15/15), done.
+Writing objects: 100% (18/18), 8.05 KiB | 179.00 KiB/s, done.
+Total 18 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (5/5), completed with 4 local objects.
+To https://github.com/McAtaajiAndongndou/coms3011a-lab1-todo.git
+   e6919b8..bdc016b  main -> main
+
+---
+
+### Claude — 17:44
+
+Seventeen commits. Now the doc addition so the database design still matches what shipped.
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `present_files`]*
+
+*[tool returned a result]*
+
+Open `docs/database-design.md`, find the section starting `### Overdue is derived at read time, never stored`, and replace it — from that heading down to just before `## Test isolation` — with the contents of that file.
+
+It keeps your existing overdue explanation intact and adds a section covering `days_until` and the counts query, with the point that both come from one read so the header count and the flagged rows can't contradict each other.
+
+```
+git add docs/database-design.md
+git commit -m "Document the derived time values added with the redesign" -m "days_until and the header counts are computed by the same queries as the overdue flag, so the documentation now covers all three rather than only overdue. Keeps the database design document matching the shipped code."
+git push
+```
+
+## Then you're done
+
+Eighteen commits, six dated sessions, deadline tomorrow. Everything the rubric asks for is in place and verified against a clean clone.
+
+Two optional last things, both cheap:
+
+**Re-export the transcript.** Today's session — the UI redesign — happened after your export, so `ai/session-transcript.md` stops at the documentation work. Same process: Settings → Privacy → Export data, upload the JSON here, I'll regenerate it. Not required, but the transcript currently doesn't cover the redesign.
+
+**One final clean clone.** You've changed ten files since the last verification. The build and tests pass locally, so risk is low — but "low risk" is what the lockfile looked like too.
+
+Good project. You went from never having coded to shipping something with a defensible schema, real tests, honest documentation, and an interface that won't look like anyone else's.
+
+---
+
+### Author — 17:45
+
+can you provide the whole database design updated
+
+---
+
+### Claude — 17:46
+
+*[assistant used tool: `bash_tool`]*
+
+*[tool returned a result]*
+
+*[assistant used tool: `present_files`]*
+
+*[tool returned a result]*
+
+Whole file — drop it straight into `docs/database-design.md`, replacing what's there.
+
+**What's new beyond the derived-time section:**
+
+- **Sorting** — a section that didn't exist. Explains the fixed `ORDER_BY` lookup, why SQL can't take a parameter there, and why status uses an explicit `CASE` rather than alphabetical.
+- **Implicit topic creation** — how `findOrCreateTopic` means the user never manages a topic list, and why unused topics are left alone.
+- **Why ISO date strings** — they sort chronologically as plain text, so sorting needs no conversion.
+- **Tasks cleared before topics** in the test teardown, because of `ON DELETE RESTRICT`.
+
+**One change to check:** I replaced the box-drawing arrow in the relationship diagram with plain ASCII (`<---`). It rendered fine on GitHub before, but ASCII removes any chance of it breaking in a different viewer or if the marker opens it locally in an editor with the wrong encoding.
+
+```
+git add docs/database-design.md
+git commit -m "Document derived time values and sorting" -m "days_until and the header counts are computed by the same queries as the overdue flag, so all three are now covered rather than only overdue. Adds the sorting section explaining why sort keys map through a fixed lookup rather than being bound as parameters, and why status is ordered by an explicit CASE."
+git push
+```
+
+Then open it on GitHub and confirm it renders cleanly.
+
+---
+
+### Author — 17:50
+
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git add docs/database-design.md
+warning: in the working copy of 'docs/database-design.md', LF will be replaced by CRLF the next time Git touches it
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git commit -m "Document derived time values and sorting" -m "days_until and the header counts are computed by the same queries as the overdue flag, so all three are now covered rather than only overdue. Adds the sorting section explaining why sort keys map through a fixed lookup rather than being bound as parameters, and why status is ordered by an explicit CASE."
+[main 656f004] Document derived time values and sorting
+ 1 file changed, 77 insertions(+), 13 deletions(-)
+PS C:\Users\Will_Lately\Desktop\SDP\lab1> git push
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 2 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (4/4), 2.09 KiB | 356.00 KiB/s, done.
+Total 4 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/McAtaajiAndongndou/coms3011a-lab1-todo.git
+   bdc016b..656f004  main -> main
+
+---
+
+### Claude — 17:50
+
+Eighteen commits. That's everything in place.
+
+Open `docs/database-design.md` on GitHub and check the new sections render cleanly — particularly the ASCII relationship diagram and the SQL blocks. Thirty seconds.
+
+## Two loose ends, both optional
+
+**The transcript is out of date.** `ai/session-transcript.md` was generated before today's UI redesign and doc updates, so it stops partway through 2 August. If you want it complete: Settings → Privacy → Export data, upload the JSON here, I'll regenerate it. The rubric doesn't require completeness, but a transcript that ends before the last three commits is a slightly odd artefact.
+
+**A final clean clone.** You've changed twelve files since the last verification. Everything passes locally, so risk is genuinely low — but the lockfile looked low-risk too.
+
+## Where you finished
+
+Every rubric criterion satisfied: 28/28 walkthrough verified from a clean clone, three documentation sections matching what shipped, eighteen commits across six dated sessions, sixteen isolated tests, transcripts with an index, and two documented instances of correcting a wrong output.
+
+Six days ago you'd written no code at all. Deadline's tomorrow.
 
 ---
