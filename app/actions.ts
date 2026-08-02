@@ -2,7 +2,14 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { createTask, updateTask, archiveTask, restoreTask, type Status } from '@/lib/tasks';
+import {
+  createTask,
+  updateTask,
+  archiveTask,
+  restoreTask,
+  setTaskStatus,
+  type Status,
+} from '@/lib/tasks';
 
 export type FormState = { error: string };
 
@@ -19,9 +26,9 @@ function readForm(formData: FormData) {
 }
 
 function validate(input: ReturnType<typeof readForm>): string {
-  if (!input.title) return 'Title is required.';
-  if (!input.topic) return 'Topic is required.';
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(input.due_date)) return 'A valid due date is required.';
+  if (!input.title) return 'Enter a title.';
+  if (!input.topic) return 'Enter a topic.';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(input.due_date)) return 'Choose a due date.';
   if (!STATUSES.includes(input.status as Status)) return 'Unknown status.';
   return '';
 }
@@ -42,7 +49,7 @@ export async function createTaskAction(
   try {
     createTask({ ...input, status: input.status as Status });
   } catch {
-    return { error: 'Could not save the task.' };
+    return { error: 'That task could not be saved.' };
   }
 
   revalidatePath('/');
@@ -63,11 +70,19 @@ export async function updateTaskAction(
   try {
     updateTask(id, { ...input, status: input.status as Status });
   } catch {
-    return { error: 'Could not update the task.' };
+    return { error: 'That change could not be saved.' };
   }
 
   revalidatePath('/');
   redirect('/');
+}
+
+export async function setStatusAction(formData: FormData): Promise<void> {
+  const id = readId(formData);
+  const status = String(formData.get('status') ?? '');
+  if (id === null || !STATUSES.includes(status as Status)) return;
+  setTaskStatus(id, status as Status);
+  revalidatePath('/');
 }
 
 export async function archiveTaskAction(formData: FormData): Promise<void> {

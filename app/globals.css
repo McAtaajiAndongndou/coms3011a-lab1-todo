@@ -1,32 +1,68 @@
 @import "tailwindcss";
 
+/*
+  Palette: "logbook". A paper ground, ink-blue accent, and a printerly brick red
+  reserved exclusively for lateness — nothing else in the interface uses it, so
+  red always means one thing.
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --border: #d4d4d4;
-  --muted: #6b7280;
+  --background: #faf9f6;
+  --surface: #ffffff;
+  --foreground: #16191d;
+  --muted: #6a7178;
+  --border: #e2e1d9;
+  --rule: #ebeae3;
+  --accent: #1e3a5f;
+  --overdue: #a62b1f;
+  --overdue-soft: #f6e6e3;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --color-border: var(--border);
   --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-rule: var(--rule);
+  --color-accent: var(--accent);
+  --color-overdue: var(--overdue);
+  --color-overdue-soft: var(--overdue-soft);
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --border: #333333;
-    --muted: #9ca3af;
+    --background: #0f1214;
+    --surface: #161a1d;
+    --foreground: #e9eae6;
+    --muted: #8b9299;
+    --border: #262b2f;
+    --rule: #1e2225;
+    --accent: #8fb3db;
+    --overdue: #ef8072;
+    --overdue-soft: #2b1714;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Visible keyboard focus everywhere, matched to the accent. */
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

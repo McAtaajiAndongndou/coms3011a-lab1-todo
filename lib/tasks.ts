@@ -13,6 +13,7 @@ export type Task = {
   status: Status;
   archived_at: string | null;
   is_overdue: number;
+  days_until: number;
 };
 
 const ORDER_BY: Record<SortKey, string> = {
@@ -21,10 +22,16 @@ const ORDER_BY: Record<SortKey, string> = {
   topic: 'tp.name COLLATE NOCASE ASC, t.due_date ASC',
 };
 
+/*
+ * Both is_overdue and days_until are computed here rather than stored. A task
+ * that becomes overdue at midnight is correct on the next read with nothing to
+ * run, and the two values can never disagree with each other.
+ */
 const SELECT = `
   SELECT t.*, tp.name AS topic_name,
     CASE WHEN t.status != 'complete' AND t.due_date < date('now')
-         THEN 1 ELSE 0 END AS is_overdue
+         THEN 1 ELSE 0 END AS is_overdue,
+    CAST(julianday(t.due_date) - julianday(date('now')) AS INTEGER) AS days_until
   FROM tasks t
   JOIN topics tp ON tp.id = t.topic_id
 `;
@@ -38,6 +45,22 @@ export function listTasks(sort: SortKey = 'due_date', archived = false): Task[] 
 
 export function getTask(id: number): Task | undefined {
   return getDb().prepare(`${SELECT} WHERE t.id = ?`).get(id) as Task | undefined;
+}
+
+/* Counts shown in the header, derived by the same rule as the overdue flag. */
+export function taskCounts(): { open: number; overdue: number; archived: number } {
+  const row = getDb()
+    .prepare(
+      `SELECT
+         SUM(CASE WHEN archived_at IS NULL THEN 1 ELSE 0 END) AS open,
+         SUM(CASE WHEN archived_at IS NULL AND status != 'complete'
+                   AND due_date < date('now') THEN 1 ELSE 0 END) AS overdue,
+         SUM(CASE WHEN archived_at IS NOT NULL THEN 1 ELSE 0 END) AS archived
+       FROM tasks`
+    )
+    .get() as { open: number | null; overdue: number | null; archived: number | null };
+
+  return { open: row.open ?? 0, overdue: row.overdue ?? 0, archived: row.archived ?? 0 };
 }
 
 export function findOrCreateTopic(name: string): number {
@@ -63,7 +86,13 @@ export function createTask(input: {
       `INSERT INTO tasks (title, description, due_date, topic_id, status)
        VALUES (?, ?, ?, ?, ?)`
     )
-    .run(input.title.trim(), input.description.trim(), input.due_date, topicId, input.status ?? 'todo');
+    .run(
+      input.title.trim(),
+      input.description.trim(),
+      input.due_date,
+      topicId,
+      input.status ?? 'todo'
+    );
   return Number(result.lastInsertRowid);
 }
 
@@ -79,12 +108,34 @@ export function updateTask(
            updated_at = datetime('now')
        WHERE id = ?`
     )
-    .run(input.title.trim(), input.description.trim(), input.due_date, topicId, input.status, id);
+    .run(
+      input.title.trim(),
+      input.description.trim(),
+      input.due_date,
+      topicId,
+      input.status,
+      id
+    );
+}
+
+/* Status can be changed from the list without opening the task. */
+export function setTaskStatus(id: number, status: Status): void {
+  getDb()
+    .prepare("UPDATE tasks SET status = ?, updated_at = datetime('now') WHERE id = ?")
+    .run(status, id);
 }
 
 export function archiveTask(id: number): void {
   getDb()
-    .prepare("UPDATE tasks SET archived_at = datetime('now'), updated_at = datetime('now') WHERE id = ?")
+    .prepare(
+      "UPDATE tasks SET archived_at = datetime('now'), updated_at = datetime('now') WHERE id = ?"
+    )
+    .run(id);
+}
+
+export function restoreTask(id: number): void {
+  getDb()
+    .prepare("UPDATE tasks SET archived_at = NULL, updated_at = datetime('now') WHERE id = ?")
     .run(id);
 }
 
@@ -93,10 +144,4 @@ export function listTopics(): { id: number; name: string }[] {
     id: number;
     name: string;
   }[];
-}
-
-export function restoreTask(id: number): void {
-  getDb()
-    .prepare("UPDATE tasks SET archived_at = NULL, updated_at = datetime('now') WHERE id = ?")
-    .run(id);
 }

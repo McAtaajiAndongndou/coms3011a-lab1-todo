@@ -7,87 +7,114 @@ import type { Task } from '@/lib/tasks';
 
 const initial: FormState = { error: '' };
 
+const field =
+  'w-full rounded-sm border border-border bg-surface px-3 py-2 text-sm text-foreground placeholder:text-muted transition-colors hover:border-accent';
+const label = 'mb-1 block font-mono text-xs uppercase tracking-wider text-muted';
+
 export default function EditTaskForm({ task, topics }: { task: Task; topics: string[] }) {
   const [state, formAction, pending] = useActionState(updateTaskAction, initial);
 
   return (
-    <form action={formAction} className="grid gap-3 rounded-lg border border-border p-4">
+    <form action={formAction} className="rounded-sm border border-border bg-surface p-6">
       <input type="hidden" name="id" value={task.id} />
 
-      <label className="grid gap-1 text-sm">
-        <span className="text-muted">Title</span>
-        <input
-          name="title"
-          required
-          defaultValue={task.title}
-          className="rounded border border-border px-3 py-2"
-        />
-      </label>
-
-      <label className="grid gap-1 text-sm">
-        <span className="text-muted">Description</span>
-        <textarea
-          name="description"
-          rows={2}
-          defaultValue={task.description}
-          className="rounded border border-border px-3 py-2"
-        />
-      </label>
-
-      <div className="grid gap-3 sm:grid-cols-3">
-        <label className="grid gap-1 text-sm">
-          <span className="text-muted">Due date</span>
+      <div className="grid gap-5">
+        <div>
+          <label htmlFor="title" className={label}>
+            Title
+          </label>
           <input
-            name="due_date"
-            type="date"
+            id="title"
+            name="title"
             required
-            defaultValue={task.due_date}
-            className="rounded border border-border px-3 py-2"
+            defaultValue={task.title}
+            className={`${field} font-display text-lg`}
           />
-        </label>
+        </div>
 
-        <label className="grid gap-1 text-sm">
-          <span className="text-muted">Topic</span>
-          <input
-            name="topic"
-            list="topic-options"
-            required
-            defaultValue={task.topic_name}
-            className="rounded border border-border px-3 py-2"
+        <div>
+          <label htmlFor="description" className={label}>
+            Description
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            rows={3}
+            defaultValue={task.description}
+            className={`${field} resize-y`}
           />
-        </label>
+        </div>
 
-        <label className="grid gap-1 text-sm">
-          <span className="text-muted">Status</span>
-          <select
-            name="status"
-            defaultValue={task.status}
-            className="rounded border border-border px-3 py-2"
-          >
-            <option value="todo">Todo</option>
-            <option value="in_progress">In-Progress</option>
-            <option value="complete">Complete</option>
-          </select>
-        </label>
+        <div className="grid gap-5 sm:grid-cols-3">
+          <div>
+            <label htmlFor="due_date" className={label}>
+              Due date
+            </label>
+            <input
+              id="due_date"
+              name="due_date"
+              type="date"
+              required
+              defaultValue={task.due_date}
+              className={`${field} font-mono`}
+            />
+          </div>
+
+          <div>
+            <label htmlFor="topic" className={label}>
+              Topic
+            </label>
+            <input
+              id="topic"
+              name="topic"
+              list="topic-options"
+              required
+              defaultValue={task.topic_name}
+              className={field}
+            />
+            <datalist id="topic-options">
+              {topics.map((t) => (
+                <option key={t} value={t} />
+              ))}
+            </datalist>
+          </div>
+
+          <div>
+            <label htmlFor="status" className={label}>
+              Status
+            </label>
+            <select
+              id="status"
+              name="status"
+              defaultValue={task.status}
+              className={`${field} cursor-pointer`}
+            >
+              <option value="todo">Todo</option>
+              <option value="in_progress">In-Progress</option>
+              <option value="complete">Complete</option>
+            </select>
+          </div>
+        </div>
       </div>
 
-      <datalist id="topic-options">
-        {topics.map((t) => (
-          <option key={t} value={t} />
-        ))}
-      </datalist>
+      {state.error && (
+        <p role="alert" className="mt-4 font-mono text-xs text-overdue">
+          {state.error}
+        </p>
+      )}
 
-      {state.error && <p className="text-sm text-red-500">{state.error}</p>}
-
-      <div className="flex items-center gap-4">
+      <div className="mt-6 flex items-center gap-5">
         <button
           type="submit"
           disabled={pending}
-          className="rounded bg-foreground px-4 py-2 text-background disabled:opacity-50"
+          className="cursor-pointer rounded-sm bg-accent px-4 py-2 font-mono text-xs uppercase tracking-widest text-background transition-opacity hover:opacity-90 disabled:opacity-50"
         >
           {pending ? 'Saving…' : 'Save changes'}
         </button>
-        <Link href="/" className="text-sm text-muted underline underline-offset-2">
+        <Link
+          href="/"
+          className="font-mono text-xs text-muted underline underline-offset-4 transition-colors hover:text-foreground"
+        >
           Cancel
         </Link>
       </div>
