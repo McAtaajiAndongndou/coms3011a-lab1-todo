@@ -44,6 +44,11 @@ enforces the shape of the string, not that the date is real — `9999-99-99` wou
 pass. The application layer supplies the value from an HTML date input, so the
 check exists to stop malformed data reaching the table, not to validate calendars.
 
+Dates are stored as ISO `YYYY-MM-DD` text because that format sorts
+chronologically as plain text. Sorting by due date is therefore an ordinary
+`ORDER BY` with no conversion, and SQLite's own date functions accept it
+directly.
+
 ### Indexes
 
 ```sql
@@ -63,15 +68,15 @@ One topic has many tasks. One task has exactly one topic.
 ```
 topics                          tasks
 ------                          -----
-id       ◄──────────────────────  topic_id   (NOT NULL, ON DELETE RESTRICT)
-name                              id
-created_at                        title
-                                  description
-                                  due_date
-                                  status
-                                  archived_at
-                                  created_at
-                                  updated_at
+id       <---------------------  topic_id   (NOT NULL, ON DELETE RESTRICT)
+name                             id
+created_at                       title
+                                 description
+                                 due_date
+                                 status
+                                 archived_at
+                                 created_at
+                                 updated_at
 ```
 
 `topic_id` is `NOT NULL`, so every task belongs to a topic. `ON DELETE RESTRICT`
@@ -92,9 +97,13 @@ topics impossible rather than merely discouraged, and because renaming a topic
 becomes a single-row update rather than an update across every task that
 mentions it.
 
-## Two decisions worth stating explicitly
+Topics are created implicitly. `findOrCreateTopic` looks for an existing row and
+inserts one only if there is none, so the user types a topic name into the task
+form and never manages a separate list. There is no orphan cleanup: an unused
+topic is harmless, and `ON DELETE RESTRICT` means one attached to tasks cannot be
+removed by accident.
 
-### Archiving is a timestamp, not a deletion or a copy
+## Archiving is a timestamp, not a deletion or a copy
 
 The brief requires that tasks cannot be deleted, only archived, and remain
 viewable. `archived_at` is `NULL` for an active task and holds a timestamp once
@@ -111,7 +120,7 @@ query either side of one condition. Restoring sets the column back to `NULL`.
 A timestamp was used rather than a boolean flag because it records *when* a task
 was archived at no additional cost, and the archived tab displays that date.
 
-### Overdue is derived at read time, never stored
+## Overdue is derived at read time, never stored
 
 There is no `overdue` column and `overdue` is not one of the permitted values of
 `status`. Every read computes it:
@@ -133,6 +142,60 @@ midnight is flagged the next time the page is read, with nothing to run.
 table_info(tasks)` and fails if a column named `overdue` or `is_overdue` ever
 appears.
 
+## Everything time-related is derived by the same query
+
+The interface leads with how far away a task is rather than its raw date — "8
+days late", "today", "in 3 days". That distance is computed in the same `SELECT`
+as the overdue flag:
+
+```sql
+CAST(julianday(t.due_date) - julianday(date('now')) AS INTEGER) AS days_until
+```
+
+Both values come from one read of one row, so they cannot disagree with each
+other: a task cannot display "8 days late" while failing to be flagged as
+overdue. `lib/relative-time.ts` turns the integer into wording and contains no
+date logic of its own.
+
+The counts in the page header — open, late, archived — are derived the same way,
+by a single aggregate over the `tasks` table rather than by counting rows in the
+application:
+
+```sql
+SELECT
+  SUM(CASE WHEN archived_at IS NULL THEN 1 ELSE 0 END) AS open,
+  SUM(CASE WHEN archived_at IS NULL AND status != 'complete'
+            AND due_date < date('now') THEN 1 ELSE 0 END) AS overdue,
+  SUM(CASE WHEN archived_at IS NOT NULL THEN 1 ELSE 0 END) AS archived
+FROM tasks
+```
+
+The overdue condition here is the same expression used in the row query, so the
+header count and the flagged rows are always consistent.
+
+## Sorting
+
+The three sort orders are held in a fixed lookup object in `lib/tasks.ts`:
+
+```
+due_date  ->  t.due_date ASC
+topic     ->  tp.name COLLATE NOCASE ASC, t.due_date ASC
+status    ->  CASE t.status WHEN 'todo' THEN 0
+                            WHEN 'in_progress' THEN 1
+                            ELSE 2 END, t.due_date ASC
+```
+
+SQL will not accept a bound parameter in an `ORDER BY` clause, so the sort key
+cannot be passed as a `?` placeholder the way every other value in this
+application is. Mapping the key through a fixed object instead means an
+unrecognised value resolves to nothing and falls back to the default, so no user
+input ever reaches the query text.
+
+Status is ordered by an explicit `CASE` rather than alphabetically. Sorting the
+stored values as text would give complete, in_progress, todo — the reverse of the
+order a reader expects. Both secondary sorts fall back to due date so the order
+is stable.
+
 ## Test isolation
 
 `lib/db.ts` resolves the database path from `process.env.DATABASE_PATH`, falling
@@ -150,4 +213,5 @@ the connection.
 
 The practical consequence is that `npm test` cannot affect a user's data, and the
 tests depend on no pre-existing database contents — every test creates the rows
-it needs after `beforeEach` clears both tables.
+it needs after `beforeEach` clears both tables. Tasks are cleared before topics,
+since `ON DELETE RESTRICT` protects a topic while any task still references it.
