@@ -29,6 +29,8 @@ Built for COMS3011A Lab 1.
 - **npm**, which ships with Node.
 - No database server is required. SQLite is embedded, and the database file is
   created automatically on first run.
+- No C++ build tools are required. See [A note on `.npmrc`](#a-note-on-npmrc)
+  below.
 
 Check your Node version:
 
@@ -48,13 +50,38 @@ npm start
 
 Then open **http://localhost:3000**.
 
-`npm install` may print warnings about peer dependencies and audit advisories.
-These come from optional platform-specific packages in the build tooling and do
-not affect the application. Do not run `npm audit fix --force`: it is permitted
-to install breaking major versions and will downgrade Next.js.
+`npm install` typically takes two to three minutes and downloads around 400
+packages. It reports three high-severity audit advisories; these are in build
+tooling rather than in code that runs when the application is used, and the
+application is never deployed and is reachable only from localhost. Do not run
+`npm audit fix --force`: it is permitted to install breaking major versions and
+will downgrade Next.js itself.
 
 The first run creates `todo.db` in the project root and applies the schema from
 `db/schema.sql` automatically. There is no migration step to run.
+
+### A note on `.npmrc`
+
+This repository contains a `.npmrc` setting `ignore-scripts=true`. This is
+required, not cosmetic.
+
+`better-sqlite3` ships prebuilt binaries for every supported platform inside its
+npm package, so it does not need to be compiled. However, it also contains a
+`binding.gyp` file, and npm's default behaviour for any package with a
+`binding.gyp` and no install script of its own is to run `node-gyp rebuild`.
+That discards the shipped binary and attempts a source build, which fails on any
+machine without a C++ toolchain — on Windows, without Visual Studio and the
+"Desktop development with C++" workload.
+
+Disabling install scripts makes npm use the prebuilt binary that was already
+downloaded. No dependency in this project requires an install script.
+
+**If you see `gyp ERR!` or "Could not find any Visual Studio installation"
+during install**, the `.npmrc` is not being read. Delete `node_modules` and run:
+
+```bash
+npm install --ignore-scripts
+```
 
 ### Development mode
 
@@ -73,9 +100,14 @@ recommend.
 npm test
 ```
 
-This runs the full suite once and exits. The tests use an in-memory SQLite
-database and never read or write `todo.db`. See
-[docs/database-design.md](docs/database-design.md) for how that isolation works.
+This runs the full suite of 16 tests once and exits. The tests use an in-memory
+SQLite database and never read or write `todo.db`. See
+[docs/database-design.md](docs/database-design.md) for how that isolation works
+and why it is enforced rather than assumed.
+
+Vitest prints a warning about `configLoader: 'native'` and ESM syntax in
+`vitest.config.ts`. This concerns a change planned for a future major version of
+Vite and does not affect the suite.
 
 ### Stopping the application
 
@@ -90,6 +122,7 @@ nothing is lost.
   reasoning behind the schema.
 - [AI usage](docs/ai-usage.md) — how AI assistance was used, constrained and
   corrected.
+- [`ai/`](ai/) — full session transcripts.
 
 ## Project layout
 
@@ -103,4 +136,7 @@ db/schema.sql               The schema, applied on every connection
 lib/db.ts                   Connection handling and database path resolution
 lib/tasks.ts                All task and topic queries
 tests/                      Vitest suite
+docs/                       Documentation
+ai/                         AI session transcripts
+.npmrc                      Disables install scripts; see above
 ```

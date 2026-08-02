@@ -40,9 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# local transcripts (submitted separately, not published)
-transcripts/
-
 # sqlite database files
 *.db
 *.db-journal
